@@ -7,6 +7,30 @@ This file provides context and instructions for AI coding agents (Copilot, Curso
 This is a Terraform module for [STACKIT](https://www.stackit.de/en/), the cloud platform by Schwarz Group.
 It is part of the [terraform-stackit-modules](https://github.com/terraform-stackit-modules) organization, which aims to provide community-maintained, production-grade Terraform modules for STACKIT.
 
+### This module: key-pair
+
+Manages a STACKIT **SSH key pair** used for server authentication. Small, standalone,
+reusable building block — pull key-pair management OUT of the compute module and compose
+them (create the key pair here, pass its `name` to `terraform-stackit-compute`).
+
+**Resource managed**
+- `stackit_key_pair` — the key pair (toggled by `create_key_pair`, via `count`).
+
+**Key inputs** — `name` (req), `public_key` (req; an OpenSSH public key. Validation is
+deliberately PERMISSIVE — it only guards against a missing prefix or a pasted private key
+and lets the STACKIT API decide which key types it accepts. STACKIT documents `ssh-rsa`
+and `ssh-ed25519`), `create_key_pair`, `labels`.
+
+**Outputs** — `name`, `id` (equals the name), `fingerprint`, `labels`
+(all `null` when `create_key_pair` is false).
+
+**Gotchas**
+- `stackit_key_pair` is account/region-scoped and does NOT take a `project_id`. The
+  `examples/basic` still DECLARES a `project_id` variable only because the Terratest
+  harness passes it in `Vars`; the module itself never consumes it.
+- Never commit a private key. Only the PUBLIC key is an input here.
+- Its `id` is literally the key pair name — importing uses the name, not a composite ID.
+
 ## Repository structure
 
 ```
