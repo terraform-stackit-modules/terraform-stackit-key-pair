@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.0 (2026-09-09)
+
+### Features
+
+* implement STACKIT SSH key pair module ([d783808](https://github.com/terraform-stackit-modules/terraform-stackit-key-pair/commit/d78380844cc46f7e6a147873a6dd7e687850564a))
+
 ## 1.0.0 (2026-09-04)
 
 ### Features
